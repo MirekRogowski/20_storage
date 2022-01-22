@@ -93,3 +93,16 @@ class Manager:
 
 manager = Manager()
 
+
+@manager.assign("saldo", 2)
+def balance_update_data(balance, comment):
+    if manager.balance + int(balance) >= 0:
+        manager.balance += int(balance)
+        manager.logs.append(["saldo", [balance, comment]])
+    else:
+        manager.error.append(["saldo", [balance, comment]])
+        print(f"Za małe saldo du wykonania operacji:"
+              f"\npotrzebujesz {int(balance) + manager.balance} jest {manager.balance}")
+
+
+manager.execute("saldo", -1000, "zus")
