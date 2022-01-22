@@ -104,5 +104,21 @@ def balance_update_data(balance, comment):
         print(f"Za małe saldo du wykonania operacji:"
               f"\npotrzebujesz {int(balance) + manager.balance} jest {manager.balance}")
 
+@manager.assign("sprzedaz", 3)
+def sale_update_data(product, price, quantity):
+    if not manager.warehouse:
+        return manager.error.append(f"Magazyn jest pusty proszę zakupic towar.")
+    if product in manager.warehouse:
+        if manager.warehouse[product] - quantity < 0:
+            return manager.error.append(f"Chcesz sprzedac {product}: {quantity} sztuk. "
+                  f"W magazynie jest: {manager.warehouse[product]} ")
+        manager.balance += price * quantity
+        manager.warehouse[product] -= quantity
+        return manager.logs.append(["sprzedaz", [product, price, quantity]])
+    else:
+        return manager.error.append(f"Nie ma w magazynie: {product} ")
 
-manager.execute("saldo", -1000, "zus")
+
+# manager.execute("saldo", -1000, "zus")
+manager.execute("sprzedaz", "rower", 400, 5)
+manager.print_info("test 1")
