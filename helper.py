@@ -75,10 +75,12 @@ class Manager:
                     # self.balance += int(self.data[index + 2]) + int(self.data[index + qty_param])
                     # self.logs.append([action, [self.data[index + 1], int(self.data[index + 2]), int(self.data[index + qty_param])]])
                     self.execute(action, self.data[index + 1], int(self.data[index + 2]), int(self.data[index + qty_param]))
+                else:
+                    print(f"Nie jest obslugiwana akcja {action}")    
                 index += qty_param + 1
                 # print(index, action, self.data[index], self.data[index + 1], self.data[index + 2], self.data[index + qty_param])
             else:
-                return f"Nie jest obslugiwana akcja {action}"
+                break
         return
 
     def print_info(self, action):
