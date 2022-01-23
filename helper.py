@@ -44,35 +44,21 @@ class Manager:
         else:
             self.warehouse[product] = quantity  # add item and quantity to warehouse
 
-    # def status_warehouse(self, item_store):
-    #     if item_store in self.warehouse:
-    #         return f"{item_store} : {self.warehouse[item_store]} sztuk"
-    #     else:
-    #         return f"{item_store} : brak poyzcji w magazynie"
-
     def transform_data(self):
         index = 0
         while index < len(self.data):
             if self.data[index] in self.action_param:
                 qty_param = self.action_param[self.data[index]]
                 action = self.data[index]
-                # print(index, action, self.data[index], self.data[index + 1], self.data[index + 2], self.data[index + qty_param])
                 if action == "saldo":
-                    # self.balance += int(self.data[index + 1])
-                    # self.logs.append([action, [int(self.data[index + 1]), self.data[index + qty_param]]])
                     self.execute(action, int(self.data[index + 1]), self.data[index + qty_param])
                 elif action == "zakup":
-                    # self.balance -= int(self.data[index + 2]) + int(self.data[index + qty_param])
-                    # self.logs.append([action, [self.data[index + 1], int(self.data[index + 2]), int(self.data[index + qty_param])]])
                     self.execute(action, self.data[index + 1], int(self.data[index + 2]), int(self.data[index + qty_param]))
                 elif action == "sprzedaz":
-                    # self.balance += int(self.data[index + 2]) + int(self.data[index + qty_param])
-                    # self.logs.append([action, [self.data[index + 1], int(self.data[index + 2]), int(self.data[index + qty_param])]])
                     self.execute(action, self.data[index + 1], int(self.data[index + 2]), int(self.data[index + qty_param]))
                 else:
                     print(f"Nie jest obslugiwana akcja {action}")    
                 index += qty_param + 1
-                # print(index, action, self.data[index], self.data[index + 1], self.data[index + 2], self.data[index + qty_param])
             else:
                 break
         return
@@ -88,7 +74,6 @@ class Manager:
 
 
 manager = Manager()
-
 
 @manager.assign("saldo", 2)
 def balance_update_data(balance, comment):
