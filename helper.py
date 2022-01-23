@@ -141,12 +141,22 @@ def status_warehouse(item_store):
             print(f"  - {item} : brak poyzcji w magazynie")
     return
 
-
 @manager.assign("konto")
 def check_balance():
     print(f"\nStan konta wynosi: {manager.balance} ")
     return
 
+@manager.assign("przeglad")
+def display_log(log_first, log_last):
+    first, last = log_first, log_last
+    try:
+        while first <= last:
+            print(f"Akcja nr {first} - {manager.logs[first - 1]}")
+            first += 1
+    except IndexError:
+        print("Koniec")
+    return
+
 
 manager.transform_data()
-manager.execute("konto")
+manager.execute(action, int(sys.argv[2]), int(sys.argv[3]))
