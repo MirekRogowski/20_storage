@@ -37,12 +37,6 @@ class Manager:
                 f.write(f"{line[0]}\n")
                 for item in line[1]:
                     f.write(f"{item}\n")
-        self.write_error_to_file()
-
-    def write_error_to_file(self):
-        with open("error.txt", "a") as e:
-            for line in self.error:
-                e.write(f"\n{datetime.datetime.now().strftime('%Y-%m-%d - %H:%M:%S')} - {line}")
 
     def check_warehouse(self, product, quantity):
         if product in self.warehouse:
@@ -109,9 +103,9 @@ def balance_update_data(balance, comment):
 @manager.assign("zakup", 3)
 def buy_update_data(product, price, quantity):
     if manager.balance <= 0:
-        return manager.error.append(f"Saldo wynosi: {manager.balance}. Nie można kupić towaru")
+        print(f"Saldo wynosi: {manager.balance}. Nie można kupić towaru")
     if price * quantity > manager.balance:
-        return manager.error.append(f"Nie mozna zakupić {product}: {quantity} sztuk. Za małe saldo: {manager.balance}")
+        print(f"Nie mozna zakupić {product}: {quantity} sztuk. Za małe saldo: {manager.balance}")
     if price * quantity <= manager.balance:
         manager.balance -= price * quantity
         manager.check_warehouse(product, quantity)
@@ -120,16 +114,17 @@ def buy_update_data(product, price, quantity):
 @manager.assign("sprzedaz", 3)
 def sale_update_data(product, price, quantity):
     if not manager.warehouse:
-        return manager.error.append(f"Magazyn jest pusty proszę zakupic towar.")
+        print(f"Magazyn jest pusty proszę zakupic towar.")
     if product in manager.warehouse:
         if manager.warehouse[product] - quantity < 0:
-            return manager.error.append(f"Chcesz sprzedac {product}: {quantity} sztuk. "
+            print(f"Chcesz sprzedac {product}: {quantity} sztuk. "
                   f"W magazynie jest: {manager.warehouse[product]} ")
-        manager.balance += price * quantity
-        manager.warehouse[product] -= quantity
-        return manager.logs.append(["sprzedaz", [product, price, quantity]])
+        else:
+            manager.balance += price * quantity
+            manager.warehouse[product] -= quantity
+            return manager.logs.append(["sprzedaz", [product, price, quantity]])
     else:
-        return manager.error.append(f"Nie ma w magazynie: {product} ")
+        print(f"Nie ma w magazynie: {product} ")
 
 @manager.assign("magazyn")
 def status_warehouse(item_store):
@@ -156,7 +151,3 @@ def display_log(log_first, log_last):
     except IndexError:
         print("Koniec")
     return
-
-
-manager.transform_data()
-manager.execute(action, int(sys.argv[2]), int(sys.argv[3]))
