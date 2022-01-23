@@ -1,2 +1,3 @@
 
 *.txt
+__pycache__/helper.cpython-310.pyc
