@@ -131,9 +131,20 @@ def sale_update_data(product, price, quantity):
     else:
         return manager.error.append(f"Nie ma w magazynie: {product} ")
 
+@manager.assign("magazyn")
+def status_warehouse(item_store):
+    print("Stan magazynu:")
+    for item in item_store:
+        if item in manager.warehouse:
+            print(f"  - {item} : {manager.warehouse[item]} sztuk")
+        else:
+            print(f"  - {item} : brak poyzcji w magazynie")
+    return
 
 
+manager.transform_data()
 
-# manager.execute("saldo", -1000, "zus")
+manager.execute("saldo", -1000, "zus")
+manager.execute("zakup", "rower", 200, 10)
 manager.execute("sprzedaz", "rower", 400, 5)
 manager.print_info("test 1")
