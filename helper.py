@@ -142,9 +142,11 @@ def status_warehouse(item_store):
     return
 
 
-manager.transform_data()
+@manager.assign("konto")
+def check_balance():
+    print(f"\nStan konta wynosi: {manager.balance} ")
+    return
 
-manager.execute("saldo", -1000, "zus")
-manager.execute("zakup", "rower", 200, 10)
-manager.execute("sprzedaz", "rower", 400, 5)
-manager.print_info("test 1")
+
+manager.transform_data()
+manager.execute("konto")
