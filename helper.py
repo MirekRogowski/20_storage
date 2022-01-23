@@ -82,8 +82,8 @@ def balance_update_data(balance, comment):
         manager.logs.append(["saldo", [balance, comment]])
     else:
         manager.error.append(["saldo", [balance, comment]])
-        print(f"Za małe saldo du wykonania operacji:"
-              f"\npotrzebujesz {int(balance) + manager.balance} jest {manager.balance}")
+        print(f"\nZa małe saldo du wykonania operacji:"
+              f"\nbrakuje {int(balance) + manager.balance}, dostepne saldo: {manager.balance}")
 
 @manager.assign("zakup", 3)
 def buy_update_data(product, price, quantity):
