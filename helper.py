@@ -63,15 +63,6 @@ class Manager:
                 break
         return
 
-    def print_info(self, action):
-        print(f"{action} - balance: ", self.balance)
-        print(f"{action} - warehouse: ", self.warehouse)
-        print(f"{action} - logs: ", self.logs)
-        print(f"{action} - data: ", self.data , type(self.data))
-        print(f"{action} - error: ", self.error)
-        print(f"{action} - actions: ", self.actions)
-        print(f"{action} - action_param: ", self.action_param )
-
 
 manager = Manager()
 
